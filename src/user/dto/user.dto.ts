@@ -1,4 +1,5 @@
-import { IsEmail, IsNotEmpty, IsNumber, } from 'class-validator';
+import { Type } from 'class-transformer';
+import { ArrayContains, ArrayNotEmpty, IsArray, IsBoolean, IsEmail, IsEmpty, IsNotEmpty, IsNumber, IsString, ValidateNested, } from 'class-validator';
 export class CreateUserInput {
 
     @IsNotEmpty()
@@ -14,4 +15,22 @@ export class CreateUserInput {
     @IsNumber()
     @IsNotEmpty()
     age: number
+
+    @IsArray()
+    interests: [];
+
+    @IsArray()
+    @ArrayNotEmpty()
+    @ValidateNested({ each: true })
+    @Type(() => permissionType)
+    permissions: []
+}
+
+export class permissionType {
+
+    @IsString()
+    name: string
+
+    @IsBoolean()
+    status: boolean
 }

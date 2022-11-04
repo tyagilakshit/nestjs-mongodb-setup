@@ -1,4 +1,6 @@
-import { Post, Controller, Get, Query, Body } from '@nestjs/common';
+import { Post, Controller, Get, Query, Body, NotFoundException, HttpException, BadRequestException } from '@nestjs/common';
+import { Param } from '@nestjs/common/decorators';
+import { ID } from '@nestjs/graphql';
 import { CreateUserInput } from './dto/user.dto';
 import { UserService } from './user.service';
 
@@ -13,5 +15,14 @@ export class UserController {
     @Post()
     async createUser(@Body() body: CreateUserInput) {
         return await this.userService.createUser(body);
+    }
+
+    @Get(':id')
+    async userById(@Param('id') userId) {
+        try {
+            return await this.userService.FindOne(userId)
+        } catch (err) {
+            return new BadRequestException(err.message)
+        }
     }
 }

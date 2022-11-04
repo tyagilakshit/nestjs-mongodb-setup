@@ -19,6 +19,13 @@ export class User {
 
     @Prop({ required: true })
     age: number
+
+    @Prop()
+    interests: Array<string>;
+
+    @Prop({ required: true, type: [{ name: { type: String }, status: { type: Boolean } }] })
+    permissions: { name: string, status: boolean }[]
 }
+
 
 export const UserSchema = SchemaFactory.createForClass(User);
